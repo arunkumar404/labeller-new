@@ -1,0 +1,130 @@
+.sidebar {
+  position: absolute;
+  right: 0;
+  top: 70px;
+  min-width: 200px;
+  border: 1px solid #b5b5b5;
+  box-sizing: border-box;
+  background-color: #322d31;
+  max-height: calc(100vh - 70px);
+  overflow-y: scroll;
+}
+.elements {
+  box-sizing: border-box;
+  font-size: 19px;
+  border-bottom: 1px solid #b5b5b5;
+  min-width: 200px;
+  padding-block: 8px;
+  padding-left: 15px;
+  color: antiquewhite;
+  font-weight: 500;
+  display: flex;
+  gap: 5px;
+  padding-inline: 1rem;
+  cursor: pointer;
+}
+.elements:hover {
+  background-color: beige;
+  color: black;
+}
+.remove_btn {
+  align-self: center;
+  background-color: transparent;
+  margin: auto;
+  color: rgb(233, 89, 45);
+  font-weight: 800;
+  border: none;
+  cursor: pointer;
+}
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 5px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+.label_input_container {
+  min-width: 350px;
+  padding-inline: 1rem;
+  color: antiquewhite;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 1.5rem;
+}
+.highlighted_element_details {
+  text-align: center;
+  min-width: 190px;
+  margin-top: 10px;
+}
+.highlighted_element_details > *:not(h5) {
+  margin-top: -20px;
+}
+.single_detail {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+.single_detail strong {
+  background-color: antiquewhite;
+  color: #322d31;
+  padding-inline: 5px;
+  padding-block: 2px;
+  border-radius: 3px;
+}
+.detail_row {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  min-width: 300px;
+}
+.single_row_detail {
+  min-width: 140px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.labelling_block > *:not(h4) {
+  margin-top: -5px;
+}
+.labelling_block input {
+  height: 35px;
+  border-radius: 3px;
+  padding-inline: 10px;
+  box-sizing: border-box;
+  font-weight: 600;
+  outline: none;
+  background-color: rgba(247, 245, 242, 0.986);
+}
+.label_btns {
+  padding-top: 1.5rem;
+  display: flex;
+  justify-content: space-around;
+}
+.label_btn {
+  background-color: antiquewhite;
+  font-size: 1rem;
+  color: #322d31;
+  font-weight: 600;
+  padding-inline:1rem;
+  padding-block:.5rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.save_progress_btn{
+  background-color: rgba(247, 245, 242, 0.986);
+  width:100%;
+  margin-top: 1.5rem !important;
+}

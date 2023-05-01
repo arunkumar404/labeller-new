@@ -1,0 +1,42 @@
+.menubar {
+  display: flex;
+  background-color: #322d31;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline: 40px;
+  height: 70px;
+}
+.header {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.button-55 {
+  background-color: transparent;
+  border-style: solid;
+  border-width: 3px;
+  color: antiquewhite;
+  cursor: pointer;
+  padding: 0.5rem 1.25rem;
+  transition: all 235ms ease-in-out;
+  border-bottom-left-radius: 15px 255px;
+  border-bottom-right-radius: 225px 35px;
+  border-top-left-radius: 255px 15px;
+  border-top-right-radius: 15px 225px;
+}
+
+.button-55:hover {
+  box-shadow: rgba(119, 118, 118, 0.3) 2px 8px 8px -5px;
+  transform: translate3d(0, 2px, 0);
+}
+
+.selected {
+  border-width: 3px;
+  border-color: bisque;
+}
+
+.options {
+  display: flex;
+  gap: 1rem;
+}

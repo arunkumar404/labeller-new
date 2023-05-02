@@ -32,6 +32,7 @@ const MainDisplay = ({ data, img }) => {
             position="absolute"
             isHighlighted={isHighlighted}
             fileName={item.fileName}
+            depth={item.depth}
           />
         );
       })}

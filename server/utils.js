@@ -38,4 +38,30 @@ const updateFilesWithNewData = async (dirPath, newDataArray) => {
     console.log(err);
   }
 };
-module.exports = { getFileNames, updateFilesWithNewData };
+
+const getDepths = async (filePath) => {
+  let tree;
+  function computeDepths(tree) {
+    const depths = {};
+    function dfs(node, depth) {
+      depths[node] = depth;
+      for (const child of tree[node].children) {
+        dfs(child, depth + 1);
+      }
+    }
+
+    for (const node in tree) {
+      if (tree[node].parent === "") {
+        dfs(node, 0);
+      }
+    }
+
+    return depths;
+  }
+  const temp = await fs.readFile(filePath, "utf-8");
+  tree = JSON.parse(temp);
+  const depths = computeDepths(tree);
+  return depths;
+};
+module.exports = { getFileNames, updateFilesWithNewData, getDepths };
+

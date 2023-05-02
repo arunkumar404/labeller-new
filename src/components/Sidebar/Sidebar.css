@@ -8,6 +8,7 @@
   background-color: #322d31;
   max-height: calc(100vh - 70px);
   overflow-y: scroll;
+  z-index: 200;
 }
 .elements {
   box-sizing: border-box;
@@ -117,14 +118,14 @@
   font-size: 1rem;
   color: #322d31;
   font-weight: 600;
-  padding-inline:1rem;
-  padding-block:.5rem;
+  padding-inline: 1rem;
+  padding-block: 0.5rem;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
-.save_progress_btn{
+.save_progress_btn {
   background-color: rgba(247, 245, 242, 0.986);
-  width:100%;
+  width: 100%;
   margin-top: 1.5rem !important;
 }

@@ -12,6 +12,7 @@ const BoundingBox = ({
   position,
   fileName,
   isHighlighted,
+  depth,
 }) => {
   const [isHovering, setIsHovering] = useState(false);
   const { selectedIndividualElements, setCurrentHighlightedElement } =
@@ -51,6 +52,8 @@ const BoundingBox = ({
         left: left,
         border: border,
         position: position,
+        zIndex: depth,
+        boxSizing: "border-box",
         borderColor: `${
           isHighlighted ? "red" : isHovering ? "#114df3" : "#41f11e"
         }`,

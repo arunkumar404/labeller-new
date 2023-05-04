@@ -29,11 +29,32 @@ const updateFilesWithNewData = async (dirPath, newDataArray) => {
         if (newData.fileName === fileNameWithoutExt) {
           parsedJson.component = newData.component;
           parsedJson.layout = newData.layout;
+        } else if ( newData.classNames === parsedJson.classNames && newData.elementType === parsedJson.elementType ){
+          console.warn({
+            parsedJson,
+            filePath
+          })
+          parsedJson.component = newData.component;
         }
       }
 
       await fs.writeFile(filePath, JSON.stringify(parsedJson));
     }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const updateAllFiles = async (dirPath, newDataArray) => {
+  try {
+    const fileNames = await fs.readdir(dirPath);
+    const fileInfos = fileNames.map(async(fileName) => {
+      console.log({
+        fileName
+      });
+      return await updateFilesWithNewData(path.resolve(dirPath, fileName, "boundingBox"), newDataArray)
+    })
+    return fileInfos
   } catch (err) {
     console.log(err);
   }
@@ -63,5 +84,5 @@ const getDepths = async (filePath) => {
   const depths = computeDepths(tree);
   return depths;
 };
-module.exports = { getFileNames, updateFilesWithNewData, getDepths };
+module.exports = { getFileNames, updateFilesWithNewData, getDepths, updateAllFiles };
 

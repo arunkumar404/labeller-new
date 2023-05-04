@@ -29,8 +29,10 @@ const LabelInput = () => {
         ...changesQueue,
         {
           fileName: currentHighlightedElement.fileName,
+          elementType: currentHighlightedElement.elementType,
           component: currentElementComponent,
           layout: currentElementLayout,
+          classNames: currentHighlightedElement.classNames
         },
       ]);
     } else {
@@ -38,8 +40,10 @@ const LabelInput = () => {
         element.fileName === currentHighlightedElement.fileName
           ? {
               fileName: currentHighlightedElement.fileName,
+              elementType: currentHighlightedElement.elementType,
               component: currentElementComponent,
               layout: currentElementLayout,
+              classNames: currentHighlightedElement.classNames
             }
           : element
       );
@@ -121,6 +125,10 @@ const LabelInput = () => {
         <div className="single_detail">
           <p>Layout:</p>
           <strong>{currentHighlightedElement?.layout}</strong>
+        </div>
+        <div className="single_detail">
+          <p>Class:</p>
+          <strong>{currentHighlightedElement?.classNames}</strong>
         </div>
         <h5>Co-ordinates & Size</h5>
         <div className="detail_row">

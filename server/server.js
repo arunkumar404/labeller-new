@@ -5,6 +5,7 @@ const {
   getFileNames,
   updateFilesWithNewData,
   getDepths,
+  updateAllFiles,
 } = require("./utils.js");
 const path = require("path");
 const fs = require("fs/promises");
@@ -13,10 +14,10 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/api/data", async (req, res) => {
-  const depths = await getDepths("../src/data/MUI/index.json");
+  const depths = await getDepths("../src/data/E_Commerce/index.json");
   const data = [];
   const fileInfos = await getFileNames(
-    path.resolve(__dirname, "..", "src", "data", "MUI", "boundingBox")
+    path.resolve(__dirname, "..", "src", "data", "E_Commerce", "boundingBox")
   );
   for (const fileInfo of fileInfos) {
     const fileContents = await fs.readFile(fileInfo.filePath, "utf-8");
@@ -31,9 +32,15 @@ app.get("/api/data", async (req, res) => {
 app.post("/api/changes", async (req, res) => {
   try {
     await updateFilesWithNewData(
-      path.resolve(__dirname, "..", "src", "data", "MUI", "boundingBox"),
+      path.resolve(__dirname, "..", "src", "data", "E_Commerce", "boundingBox"),
       req.body
     );
+    
+    await updateAllFiles(
+      path.resolve(__dirname, "..", "src", "data"),
+      req.body
+    );
+
     res.json({ status: 200, message: "Data saved successfully" });
   } catch (err) {
     res.json({

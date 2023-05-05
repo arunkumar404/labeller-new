@@ -124,7 +124,10 @@ const LabelInput = () => {
         </div>
         <div className="single_detail">
           <p>Layout:</p>
-          <strong>{currentHighlightedElement?.layout}</strong>
+          <div style={{display:'inline-flex',alignItems:'center',gap:'10px'}}>
+            <strong>{currentHighlightedElement?.layout?.row===true ? 'Row': ''}</strong>
+            <strong>{currentHighlightedElement?.layout?.column===true ? 'Column' : ''}</strong>
+          </div>
         </div>
         <div className="single_detail">
           <p>Class:</p>

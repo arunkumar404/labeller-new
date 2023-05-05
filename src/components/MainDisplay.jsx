@@ -1,10 +1,46 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import BoundingBox from "./BoundingBox/BoundingBox";
 import { useElementsContext } from "../context";
 
 const MainDisplay = ({ data, img }) => {
-  const { selectedIndividualElements, currentHighlightedElement } =
-    useElementsContext([]);
+  const {
+    selectedIndividualElements,
+    currentHighlightedElement,
+    layoutFilterType,
+  } = useElementsContext([]);
+
+  const [selectedIndividualElementsLF, setSelectedIndividualElementsLF] =
+    useState([]);
+
+  useEffect(() => {
+    let tempArray = [];
+    if (layoutFilterType.includes("row")) {
+      tempArray = [
+        ...tempArray,
+        ...selectedIndividualElements.filter(
+          (element) => element?.layout?.row === true
+        ),
+      ];
+    }
+    if (layoutFilterType.includes("column")) {
+      tempArray = [
+        ...tempArray,
+        ...selectedIndividualElements.filter(
+          (element) => element?.layout?.column === true
+        ),
+      ];
+    }
+    if (layoutFilterType.includes("unnamed")) {
+      tempArray = [
+        ...tempArray,
+        ...selectedIndividualElements.filter(
+          (element) =>
+            element?.layout?.row === false && element?.layout?.column === false
+        ),
+      ];
+    }
+    setSelectedIndividualElementsLF([...tempArray]);
+  }, [selectedIndividualElements, layoutFilterType]);
 
   return (
     <div
@@ -16,7 +52,7 @@ const MainDisplay = ({ data, img }) => {
       }}
     >
       <img src={img} alt="img1" className="main_image" />
-      {selectedIndividualElements.map((item, i) => {
+      {selectedIndividualElementsLF.map((item, i) => {
         const isHighlighted =
           item.fileName === currentHighlightedElement?.fileName;
         return (

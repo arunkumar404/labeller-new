@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import "./App.css";
 import Menubar from "./components/Menubar/Menubar";
 import MainDisplay from "./components/MainDisplay";
-import img1 from "./data/E_Commerce/page.png";
+import img1 from "./data/fuse/page.png";
 import Sidebar from "./components/Sidebar/Sidebar";
 import { useElementsContext } from "./context";
 import Toast from "./components/Toast/Toast";

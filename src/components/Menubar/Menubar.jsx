@@ -18,6 +18,15 @@ const Menubar = () => {
       <div className="options">
         <button
           class={`button-55 ${
+            selectedSidebar === "layout_filter" && "selected"
+          }`}
+          name="layout_filter"
+          onClick={handleSidebarToggle}
+        >
+          Layout Filter
+        </button>
+        <button
+          class={`button-55 ${
             selectedSidebar === "group_filter" && "selected"
           }`}
           name="group_filter"

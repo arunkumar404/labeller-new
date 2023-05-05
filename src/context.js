@@ -15,7 +15,7 @@ export const ContextProvider = ({ children }) => {
     useState(null);
   const [changesQueue, setChangesQueue] = useState([]);
   const [toast, setToast] = useState({show:false, message:'', type: ''});
-
+  const [layoutFilterType, setLayoutFilterType] = useState(['row','column'])
   return (
     <ElementsContext.Provider
       value={{
@@ -37,6 +37,8 @@ export const ContextProvider = ({ children }) => {
         setChangesQueue,
         toast,
         setToast,
+        layoutFilterType,
+        setLayoutFilterType,
       }}
     >
       {children}

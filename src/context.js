@@ -14,8 +14,14 @@ export const ContextProvider = ({ children }) => {
   const [currentHighlightedElement, setCurrentHighlightedElement] =
     useState(null);
   const [changesQueue, setChangesQueue] = useState([]);
-  const [toast, setToast] = useState({show:false, message:'', type: ''});
-  const [layoutFilterType, setLayoutFilterType] = useState(['row-container','column-container'])
+  const [toast, setToast] = useState({ show: false, message: "", type: "" });
+  const [layoutFilterType, setLayoutFilterType] = useState(['row-container','column-container','unnamed']);
+
+  const [totalSelectedElements, setTotalSelectedElements] = useState("");
+  const [selectedIndividualElementsLF, setSelectedIndividualElementsLF] =
+    useState([]);
+  const [applyLayoutFilters, setApplyLayoutFilters] = useState(false);
+
   return (
     <ElementsContext.Provider
       value={{
@@ -39,6 +45,12 @@ export const ContextProvider = ({ children }) => {
         setToast,
         layoutFilterType,
         setLayoutFilterType,
+        totalSelectedElements,
+        setTotalSelectedElements,
+        selectedIndividualElementsLF,
+        setSelectedIndividualElementsLF,
+        applyLayoutFilters,
+        setApplyLayoutFilters
       }}
     >
       {children}

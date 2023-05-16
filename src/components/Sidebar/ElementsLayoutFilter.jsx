@@ -2,7 +2,7 @@ import React from "react";
 import { useElementsContext } from "../../context";
 
 const ElementsLayoutFilter = () => {
-  const { layoutFilterType,setLayoutFilterType } =
+  const { layoutFilterType, setLayoutFilterType, applyLayoutFilters,setApplyLayoutFilters } =
     useElementsContext([]);
   const handleFilterSelect = (e) => {
     const checkboxInput = e.currentTarget.querySelector(
@@ -34,12 +34,22 @@ const ElementsLayoutFilter = () => {
       checkboxInput.checked = true;
     }
   };
+
+  const handleToggleLayoutFilter = () => {
+    setApplyLayoutFilters(!applyLayoutFilters)
+  };
   return (
     <>
       <div className="elements">
         <button
           className="remove_btn remove_filters"
-          onClick={() => setLayoutFilterType(['row-container','column-container','unnamed'])}
+          onClick={() =>
+            setLayoutFilterType([
+              "row-container",
+              "column-container",
+              "unnamed",
+            ])
+          }
         >
           Remove all Filters
         </button>
@@ -52,7 +62,7 @@ const ElementsLayoutFilter = () => {
           Unselect all elements
         </button>
       </div>
-      {['Row-Container','Column-Container','Unnamed'].map((element, i) => {
+      {["Row-Container", "Column-Container", "Unnamed"].map((element, i) => {
         return (
           <div
             key={`${element}${i}`}
@@ -70,6 +80,19 @@ const ElementsLayoutFilter = () => {
           </div>
         );
       })}
+      <div className='layoutToggleContainer'>
+        <button
+          class={`layoutFilterToggle ${
+            applyLayoutFilters
+              ? "toggleLayoutFiltersApply"
+              : "toggleLayoutFiltersRemove"
+          }`}
+          name="layout_filter"
+          onClick={handleToggleLayoutFilter}
+        >
+          {applyLayoutFilters ? "Remove Layout Filter" : "Apply Layout Filter"}
+        </button>
+      </div>
     </>
   );
 };

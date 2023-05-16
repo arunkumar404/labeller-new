@@ -45,4 +45,21 @@
 .options {
   display: flex;
   gap: 1rem;
+  align-items: center;
+}
+.selectedElements{
+  color: antiquewhite;
+  display: flex;
+  align-items: center;
+  gap:2rem;
+  margin-right: 2rem;
+}
+.selectedElements p{
+  min-width: 220px;
+}
+.layoutFiltersApplied{
+  background-color: rgba(125, 248, 77, 0.384);
+}
+.layoutFiltersNotApplied{
+  background-color: rgba(247, 91, 64, 0.432);
 }

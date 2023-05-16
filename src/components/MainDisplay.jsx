@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import BoundingBox from "./BoundingBox/BoundingBox";
 import { useElementsContext } from "../context";
 
@@ -7,10 +7,10 @@ const MainDisplay = ({ data, img }) => {
     selectedIndividualElements,
     currentHighlightedElement,
     layoutFilterType,
+    selectedIndividualElementsLF,
+    setSelectedIndividualElementsLF,
+    applyLayoutFilters
   } = useElementsContext([]);
-
-  const [selectedIndividualElementsLF, setSelectedIndividualElementsLF] =
-    useState([]);
 
   useEffect(() => {
     let tempArray = [];
@@ -35,7 +35,8 @@ const MainDisplay = ({ data, img }) => {
         ...tempArray,
         ...selectedIndividualElements.filter(
           (element) =>
-            element?.layout?.rowContainer === false && element?.layout?.columnContainer === false
+            element?.layout?.rowContainer === false &&
+            element?.layout?.columnContainer === false
         ),
       ];
     }
@@ -52,7 +53,7 @@ const MainDisplay = ({ data, img }) => {
       }}
     >
       <img src={img} alt="img1" className="main_image" />
-      {selectedIndividualElementsLF.map((item, i) => {
+      {(!applyLayoutFilters?selectedIndividualElements:selectedIndividualElementsLF).map((item, i) => {
         const isHighlighted =
           item.fileName === currentHighlightedElement?.fileName;
         return (

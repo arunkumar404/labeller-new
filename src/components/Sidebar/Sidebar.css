@@ -166,3 +166,23 @@
   width: 100%;
   margin-top: 1.5rem !important;
 }
+.layoutFilterToggle{
+  color: antiquewhite;
+  border:none;
+  box-shadow: none;
+  border-radius: 3px;
+  padding-block:8px;
+  cursor: pointer;
+  padding-inline: 20px;
+}
+.toggleLayoutFiltersApply{
+  background-color: rgba(247, 91, 64, 0.432);
+}
+.toggleLayoutFiltersRemove{
+  background-color: rgba(125, 248, 77, 0.384);
+}
+.layoutToggleContainer{
+  margin-block: 15px;
+  display: flex;
+  justify-content: center;
+}

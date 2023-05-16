@@ -17,9 +17,14 @@ const App = () => {
     setSelectedIndividualElements,
     selectedIndividualElements,
     setCurrentHighlightedElement,
-    toast
+    toast,
+    setTotalSelectedElements,
   } = useElementsContext([]);
 
+  useEffect(() => {
+    setTotalSelectedElements(selectedIndividualElements.length);
+  }, [selectedIndividualElements]);
+  
   useEffect(() => {
     const disElements = [...new Set(data.map((item) => item.elementType))];
     setDistinctElements(disElements);

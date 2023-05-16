@@ -1,6 +1,7 @@
 import React from "react";
 import "./Menubar.css";
 import { useElementsContext } from "../../context";
+import Sidebar from "../Sidebar/Sidebar";
 
 const Menubar = () => {
   const { selectedSidebar, setSelectedSidebar } = useElementsContext();
@@ -14,6 +15,7 @@ const Menubar = () => {
 
   return (
     <div className="menubar">
+      <Sidebar/>
       <p className="header">Labeller</p>
       <div className="options">
         <button

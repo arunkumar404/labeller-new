@@ -3,7 +3,6 @@ import "./App.css";
 import Menubar from "./components/Menubar/Menubar";
 import MainDisplay from "./components/MainDisplay";
 import img1 from "./data/fuse/page.png";
-import Sidebar from "./components/Sidebar/Sidebar";
 import { useElementsContext } from "./context";
 import Toast from "./components/Toast/Toast";
 
@@ -69,7 +68,6 @@ const App = () => {
     <div className="app">
       <Menubar />
       <MainDisplay data={data} img={img1} />
-      <Sidebar data={data} />
       {toast.show && <Toast message={toast.message} type={toast.type} />}
     </div>
   );

@@ -75,6 +75,43 @@
   align-items: center;
   justify-content: space-between;
   gap: 40px;
+  position: relative;
+}
+.class_container {
+  display: flex;
+  width: 180px;
+  overflow: hidden;
+  height: 1.37rem;
+  background-color: antiquewhite;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.hide_class_container {
+  display: none;
+}
+.full_class_modal {
+  position: absolute;
+  display: none;
+  min-width: 300px;
+  min-height: 100px;
+  right: 0;
+  bottom: 0;
+  background-color: antiquewhite;
+  border-radius: 5px;
+  padding-inline: 10px;
+  padding-top: 35px;
+  padding-bottom: 15px;
+  line-height: 1.25rem;
+}
+.close_btn {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-size: 10px;
+  cursor: pointer;
+}
+.show_class_modal {
+  display: block;
 }
 .single_detail strong {
   background-color: antiquewhite;

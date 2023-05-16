@@ -8,13 +8,13 @@ const LabelInput = () => {
     setCurrentHighlightedElement,
     changesQueue,
     setChangesQueue,
-    setToast
+    setToast,
   } = useElementsContext([]);
   const [totalSelectedElements, setTotalSelectedElements] = useState("");
 
   const [currentElementComponent, setCurrentElementComponent] = useState("");
   const [currentElementLayout, setCurrentElementLayout] = useState("");
-
+  const [showClassModal, setShowClassModal] = useState(false);
   useEffect(() => {
     setTotalSelectedElements(selectedIndividualElements.length);
   }, [selectedIndividualElements]);
@@ -32,7 +32,7 @@ const LabelInput = () => {
           elementType: currentHighlightedElement.elementType,
           component: currentElementComponent,
           layout: currentElementLayout,
-          classNames: currentHighlightedElement.classNames
+          classNames: currentHighlightedElement.classNames,
         },
       ]);
     } else {
@@ -43,7 +43,7 @@ const LabelInput = () => {
               elementType: currentHighlightedElement.elementType,
               component: currentElementComponent,
               layout: currentElementLayout,
-              classNames: currentHighlightedElement.classNames
+              classNames: currentHighlightedElement.classNames,
             }
           : element
       );
@@ -98,19 +98,26 @@ const LabelInput = () => {
 
       const data = await response.json();
       if (response.status === 200) {
-        setToast({ show: true, message: data.message, type: 'success' })
+        setToast({ show: true, message: data.message, type: "success" });
       } else {
-        setToast({ show: true, message: data.message, type: 'error' })
+        setToast({ show: true, message: data.message, type: "error" });
       }
     } catch (error) {
       console.error(error);
     }
   };
 
+  const handleClassContainerClick = () => {
+    setShowClassModal(!showClassModal);
+  };
+
   return (
     <div className="label_input_container">
       <p>
         Total Selected Elements: <strong>{totalSelectedElements}</strong>
+      </p>
+      <p>
+        <strong>{currentHighlightedElement.fileName}</strong>
       </p>
       <h4>Highlighted Element</h4>
       <div className="highlighted_element_details">
@@ -124,14 +131,49 @@ const LabelInput = () => {
         </div>
         <div className="single_detail">
           <p>Layout:</p>
-          <div style={{display:'inline-flex',alignItems:'center',gap:'10px'}}>
-            <strong>{currentHighlightedElement?.layout?.row===true ? 'Row': ''}</strong>
-            <strong>{currentHighlightedElement?.layout?.column===true ? 'Column' : ''}</strong>
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "10px",
+            }}
+          >
+            <strong>
+              {currentHighlightedElement?.layout?.rowContainer === true ? "Row-Container" : ""}
+            </strong>
+            <strong>
+              {currentHighlightedElement?.layout?.columnContainer === true
+                ? "Column-Container"
+                : ""}
+            </strong>
           </div>
         </div>
         <div className="single_detail">
           <p>Class:</p>
-          <strong>{currentHighlightedElement?.classNames}</strong>
+          <div
+            className={`class_container ${
+              showClassModal ? "hide_class_container" : ""
+            }`}
+            onClick={handleClassContainerClick}
+          >
+            <strong>{currentHighlightedElement?.classNames}</strong>
+            <strong>
+              <span>...</span>
+            </strong>
+          </div>
+          <div
+            className={`full_class_modal ${
+              showClassModal ? "show_class_modal" : ""
+            }`}
+          >
+            <strong
+              className="close_btn"
+              onClick={() => setShowClassModal(!showClassModal)}
+            >
+              X
+            </strong>
+            <strong>{currentHighlightedElement?.classNames}</strong>
+          </div>
         </div>
         <h5>Co-ordinates & Size</h5>
         <div className="detail_row">

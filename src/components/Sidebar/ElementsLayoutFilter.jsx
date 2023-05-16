@@ -39,7 +39,7 @@ const ElementsLayoutFilter = () => {
       <div className="elements">
         <button
           className="remove_btn remove_filters"
-          onClick={() => setLayoutFilterType(['row','column','unnamed'])}
+          onClick={() => setLayoutFilterType(['row-container','column-container','unnamed'])}
         >
           Remove all Filters
         </button>
@@ -52,7 +52,7 @@ const ElementsLayoutFilter = () => {
           Unselect all elements
         </button>
       </div>
-      {['Row','Column','Unnamed'].map((element, i) => {
+      {['Row-Container','Column-Container','Unnamed'].map((element, i) => {
         return (
           <div
             key={`${element}${i}`}

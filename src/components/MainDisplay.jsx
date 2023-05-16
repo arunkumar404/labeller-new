@@ -14,19 +14,19 @@ const MainDisplay = ({ data, img }) => {
 
   useEffect(() => {
     let tempArray = [];
-    if (layoutFilterType.includes("row")) {
+    if (layoutFilterType.includes("row-container")) {
       tempArray = [
         ...tempArray,
         ...selectedIndividualElements.filter(
-          (element) => element?.layout?.row === true
+          (element) => element?.layout?.rowContainer === true
         ),
       ];
     }
-    if (layoutFilterType.includes("column")) {
+    if (layoutFilterType.includes("column-container")) {
       tempArray = [
         ...tempArray,
         ...selectedIndividualElements.filter(
-          (element) => element?.layout?.column === true
+          (element) => element?.layout?.columnContainer === true
         ),
       ];
     }
@@ -35,7 +35,7 @@ const MainDisplay = ({ data, img }) => {
         ...tempArray,
         ...selectedIndividualElements.filter(
           (element) =>
-            element?.layout?.row === false && element?.layout?.column === false
+            element?.layout?.rowContainer === false && element?.layout?.columnContainer === false
         ),
       ];
     }
@@ -45,7 +45,7 @@ const MainDisplay = ({ data, img }) => {
   return (
     <div
       style={{
-        marginTop: "1rem",
+        marginTop: "calc(70px + 1rem)",
         position: "relative",
         width: "fit-content",
         height: "fit-content",

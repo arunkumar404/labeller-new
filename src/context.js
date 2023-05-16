@@ -15,7 +15,7 @@ export const ContextProvider = ({ children }) => {
     useState(null);
   const [changesQueue, setChangesQueue] = useState([]);
   const [toast, setToast] = useState({show:false, message:'', type: ''});
-  const [layoutFilterType, setLayoutFilterType] = useState(['row','column'])
+  const [layoutFilterType, setLayoutFilterType] = useState(['row-container','column-container'])
   return (
     <ElementsContext.Provider
       value={{

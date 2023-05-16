@@ -1,4 +1,10 @@
 .menubar {
+  position: fixed;
+  top: 0;
+  left:0;
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 999;
   display: flex;
   background-color: #322d31;
   justify-content: space-between;

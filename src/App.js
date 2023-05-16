@@ -19,6 +19,8 @@ const App = () => {
     setCurrentHighlightedElement,
     toast,
     setTotalSelectedElements,
+    applyLayoutFilters,
+    selectedIndividualElementsLF
   } = useElementsContext([]);
 
   useEffect(() => {
@@ -47,9 +49,13 @@ const App = () => {
   }, [selectedGroupElements, data]);
 
   useEffect(() => {
-    setCurrentHighlightedElement(selectedIndividualElements[0]);
+    if (!applyLayoutFilters) {
+      setCurrentHighlightedElement(selectedIndividualElements[0]);
+    } else if (applyLayoutFilters) {
+      setCurrentHighlightedElement(selectedIndividualElementsLF[0]);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedIndividualElements]);
+  }, [selectedIndividualElements,applyLayoutFilters,selectedIndividualElementsLF]);
 
   useEffect(() => {
     const getFileNames = async () => {

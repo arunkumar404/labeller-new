@@ -10,12 +10,13 @@ const LabelInput = () => {
     setChangesQueue,
     setToast,
     totalSelectedElements,
+    applyLayoutFilters,
+    selectedIndividualElementsLF,
   } = useElementsContext([]);
 
   const [currentElementComponent, setCurrentElementComponent] = useState("");
   const [currentElementLayout, setCurrentElementLayout] = useState("");
   const [showClassModal, setShowClassModal] = useState(false);
-
 
   const nextPrevHandler = (e) => {
     const currentElementChangeIndex = changesQueue.findIndex(
@@ -49,25 +50,41 @@ const LabelInput = () => {
     }
 
     const clickType = e.target.name;
-    const totalSelectedElements = selectedIndividualElements.length;
-
-    let currentElementIndex = selectedIndividualElements.indexOf(
-      currentHighlightedElement
-    );
+    let totalSelectedElementsLocal;
+    let currentElementIndex;
+    if (!applyLayoutFilters) {
+      totalSelectedElementsLocal = selectedIndividualElements.length;
+      currentElementIndex = selectedIndividualElements.indexOf(
+        currentHighlightedElement
+      );
+    } else if (applyLayoutFilters) {
+      totalSelectedElementsLocal = selectedIndividualElementsLF.length;
+      currentElementIndex = selectedIndividualElementsLF.indexOf(
+        currentHighlightedElement
+      );
+    }
 
     let next = currentElementIndex + 1;
     let prev = currentElementIndex - 1;
 
-    if (next === totalSelectedElements) {
+    if (next === totalSelectedElementsLocal) {
       next = 0;
     }
     if (prev < 0) {
-      prev = totalSelectedElements - 1;
+      prev = totalSelectedElementsLocal - 1;
     }
     if (clickType === "next") {
-      setCurrentHighlightedElement(selectedIndividualElements[next]);
+      if (!applyLayoutFilters) {
+        setCurrentHighlightedElement(selectedIndividualElements[next]);
+      } else if (applyLayoutFilters) {
+        setCurrentHighlightedElement(selectedIndividualElementsLF[next]);
+      }
     } else if (clickType === "prev") {
-      setCurrentHighlightedElement(selectedIndividualElements[prev]);
+      if (!applyLayoutFilters) {
+        setCurrentHighlightedElement(selectedIndividualElements[prev]);
+      } else if (applyLayoutFilters) {
+        setCurrentHighlightedElement(selectedIndividualElementsLF[prev]);
+      }
     }
   };
 
@@ -137,7 +154,11 @@ const LabelInput = () => {
             }}
           >
             <strong>
-              {currentHighlightedElement?.layout?.rowContainer === true ? "Row-Container" : currentHighlightedElement?.layout?.columnContainer === true ? "Column-Container" : ""}
+              {currentHighlightedElement?.layout?.rowContainer === true
+                ? "Row-Container"
+                : currentHighlightedElement?.layout?.columnContainer === true
+                ? "Column-Container"
+                : ""}
             </strong>
           </div>
         </div>

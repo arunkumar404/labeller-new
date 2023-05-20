@@ -19,7 +19,6 @@ const BoundingBox = ({
     useElementsContext();
 
   const handleMouseEnter = (e) => {
-    console.log(e.target.dataset.id);
     const isInSelectedList = selectedIndividualElements.some(
       (element) => element.fileName === e.target.dataset.id
     );

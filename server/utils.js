@@ -49,12 +49,9 @@ const updateAllFiles = async (dirPath, newDataArray) => {
   try {
     const fileNames = await fs.readdir(dirPath);
     const fileInfos = fileNames.map(async(fileName) => {
-      console.log({
-        fileName
-      });
       return await updateFilesWithNewData(path.resolve(dirPath, fileName, "boundingBox"), newDataArray)
     })
-    return fileInfos
+    return await Promise.all(fileInfos);
   } catch (err) {
     console.log(err);
   }

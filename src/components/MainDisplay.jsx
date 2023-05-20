@@ -9,7 +9,7 @@ const MainDisplay = ({ data, img }) => {
     layoutFilterType,
     selectedIndividualElementsLF,
     setSelectedIndividualElementsLF,
-    applyLayoutFilters
+    applyLayoutFilters,
   } = useElementsContext([]);
 
   useEffect(() => {
@@ -53,7 +53,10 @@ const MainDisplay = ({ data, img }) => {
       }}
     >
       <img src={img} alt="img1" className="main_image" />
-      {(!applyLayoutFilters?selectedIndividualElements:selectedIndividualElementsLF).map((item, i) => {
+      {(!applyLayoutFilters
+        ? selectedIndividualElements
+        : selectedIndividualElementsLF
+      ).map((item, i) => {
         const isHighlighted =
           item.fileName === currentHighlightedElement?.fileName;
         return (

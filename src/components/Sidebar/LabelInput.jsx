@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useElementsContext } from "../../context";
+import DropdownInput from "./DropDownInput";
 
-const LabelInput = () => {
+const LabelInput = ({inputShowDropdown, setInputShowDropdown, inputDropdownType,setInputDropdownType}) => {
   const {
     selectedIndividualElements,
     currentHighlightedElement,
@@ -17,6 +18,9 @@ const LabelInput = () => {
   const [currentElementComponent, setCurrentElementComponent] = useState("");
   const [currentElementLayout, setCurrentElementLayout] = useState("");
   const [showClassModal, setShowClassModal] = useState(false);
+
+  const ComponentsList = ['TextField','Button','AppBar','Checkbox', 'Radio','Typography','Chip','Divider','Form','List','Select'];
+  const LayoutList = ['Row-Container','Column-Container'];
 
   const nextPrevHandler = (e) => {
     const currentElementChangeIndex = changesQueue.findIndex(
@@ -225,18 +229,28 @@ const LabelInput = () => {
         <h4>Label Editor</h4>
         <div className="single_detail">
           <p>Component:</p>
-          <input
-            type="text"
-            value={currentElementComponent}
-            onChange={(e) => setCurrentElementComponent(e.target.value)}
+          <DropdownInput
+            type='component'
+            options={ComponentsList}
+            inputValue={currentElementComponent}
+            setInputValue={setCurrentElementComponent}
+            inputShowDropdown={inputShowDropdown}
+            setInputShowDropdown={setInputShowDropdown}
+            inputDropdownType={inputDropdownType}
+            setInputDropdownType={setInputDropdownType}
           />
         </div>
         <div className="single_detail">
           <p>Layout:</p>
-          <input
-            type="text"
-            value={currentElementLayout}
-            onChange={(e) => setCurrentElementLayout(e.target.value)}
+          <DropdownInput
+            type='layout'
+            options={LayoutList}
+            inputValue={currentElementLayout}
+            setInputValue={setCurrentElementLayout}
+            inputShowDropdown={inputShowDropdown}
+            setInputShowDropdown={setInputShowDropdown}
+            inputDropdownType={inputDropdownType}
+            setInputDropdownType={setInputDropdownType}
           />
         </div>
         <div className="label_btns">

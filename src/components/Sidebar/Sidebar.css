@@ -120,6 +120,48 @@
   padding-block: 2px;
   border-radius: 3px;
 }
+.inputElementContainer{
+  position: relative;
+}
+.inputDropdown{
+  position: absolute;
+  left:2px;
+  top:35px;
+  z-index: 1001;
+  border:1px solid antiquewhite;
+  background-color: #322d31;
+  max-height: 150px;
+  overflow: auto;
+}
+
+.inputDropdown::-webkit-scrollbar {
+  width: 6px;
+}
+
+.inputDropdown::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+.inputDropdown::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 3px;
+}
+
+.inputDropdown::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+.inputOptions{
+  border:1px solid antiquewhite;
+  width:188px;
+  padding-block: 6px;
+  font-size: .8rem;
+  padding-inline: 10px;
+  box-sizing: border-box;
+}
+.inputOptions:hover{
+  background-color: antiquewhite;
+  color:#322d31;
+}
 .detail_row {
   display: flex;
   align-items: center;
@@ -138,6 +180,7 @@
 }
 .labelling_block input {
   height: 35px;
+  width:200px;
   border-radius: 3px;
   padding-inline: 10px;
   box-sizing: border-box;

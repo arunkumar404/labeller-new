@@ -209,6 +209,20 @@
   width: 100%;
   margin-top: 1.5rem !important;
 }
+.addtoqueuecontainer{
+  display: flex;
+  justify-content: center;
+}
+.add_to_queue_btn {
+  background-color: rgba(247, 245, 242, 0.986);
+  width: 80%;
+  margin-top: 1.5rem !important;
+}
+.delete_bb_btn{
+  background-color: rgba(224, 74, 36, 0.986);
+  color: antiquewhite;
+  width: 100%;
+}
 .layoutFilterToggle{
   color: antiquewhite;
   border:none;

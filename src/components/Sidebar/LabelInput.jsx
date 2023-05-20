@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useElementsContext } from "../../context";
 import DropdownInput from "./DropDownInput";
 
-const LabelInput = ({inputShowDropdown, setInputShowDropdown, inputDropdownType,setInputDropdownType}) => {
+const LabelInput = ({
+  inputShowDropdown,
+  setInputShowDropdown,
+  inputDropdownType,
+  setInputDropdownType,
+}) => {
   const {
     selectedIndividualElements,
     currentHighlightedElement,
@@ -19,10 +24,22 @@ const LabelInput = ({inputShowDropdown, setInputShowDropdown, inputDropdownType,
   const [currentElementLayout, setCurrentElementLayout] = useState("");
   const [showClassModal, setShowClassModal] = useState(false);
 
-  const ComponentsList = ['TextField','Button','AppBar','Checkbox', 'Radio','Typography','Chip','Divider','Form','List','Select'];
-  const LayoutList = ['Row-Container','Column-Container'];
+  const ComponentsList = [
+    "TextField",
+    "Button",
+    "AppBar",
+    "Checkbox",
+    "Radio",
+    "Typography",
+    "Chip",
+    "Divider",
+    "Form",
+    "List",
+    "Select",
+  ];
+  const LayoutList = ["Row-Container", "Column-Container"];
 
-  const nextPrevHandler = (e) => {
+  const addToQueue = () => {
     const currentElementChangeIndex = changesQueue.findIndex(
       (element) => element.fileName === currentHighlightedElement.fileName
     );
@@ -52,6 +69,15 @@ const LabelInput = ({inputShowDropdown, setInputShowDropdown, inputDropdownType,
       );
       setChangesQueue([...updatedChangesQueue]);
     }
+  };
+
+  const addToQueueHandler = () => {
+    addToQueue();
+  };
+
+  
+  const nextPrevHandler = (e) => {
+    addToQueue();
 
     const clickType = e.target.name;
     let totalSelectedElementsLocal;
@@ -70,7 +96,7 @@ const LabelInput = ({inputShowDropdown, setInputShowDropdown, inputDropdownType,
 
     let next = currentElementIndex + 1;
     let prev = currentElementIndex - 1;
-
+    
     if (next === totalSelectedElementsLocal) {
       next = 0;
     }
@@ -95,7 +121,7 @@ const LabelInput = ({inputShowDropdown, setInputShowDropdown, inputDropdownType,
   useEffect(() => {
     const currentElementChangesQueued = changesQueue.find(
       (element) => element.fileName === currentHighlightedElement.fileName
-    );
+      );
     if (currentElementChangesQueued) {
       setCurrentElementComponent(currentElementChangesQueued.component);
       setCurrentElementLayout(currentElementChangesQueued.layout);
@@ -104,6 +130,28 @@ const LabelInput = ({inputShowDropdown, setInputShowDropdown, inputDropdownType,
       setCurrentElementLayout("");
     }
   }, [currentHighlightedElement]);
+
+  const deleteBBHandler = async () => {
+
+    try {
+      const response = await fetch(`http://localhost:5000/api/deletebb/${currentHighlightedElement.fileName}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const data = await response.json();
+
+      if (data.status === 200) {
+        setToast({ show: true, message: data.message, type: "success" });
+      } else {
+        setToast({ show: true, message: data.message, type: "error" });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   const saveProgressHandler = async () => {
     try {
@@ -225,12 +273,18 @@ const LabelInput = ({inputShowDropdown, setInputShowDropdown, inputDropdownType,
           </div>
         </div>
       </div>
+        <button
+          className="label_btn delete_bb_btn"
+          onClick={deleteBBHandler}
+        >
+          Delete Bounding Box
+        </button>
       <div className="labelling_block">
         <h4>Label Editor</h4>
         <div className="single_detail">
           <p>Component:</p>
           <DropdownInput
-            type='component'
+            type="component"
             options={ComponentsList}
             inputValue={currentElementComponent}
             setInputValue={setCurrentElementComponent}
@@ -243,7 +297,7 @@ const LabelInput = ({inputShowDropdown, setInputShowDropdown, inputDropdownType,
         <div className="single_detail">
           <p>Layout:</p>
           <DropdownInput
-            type='layout'
+            type="layout"
             options={LayoutList}
             inputValue={currentElementLayout}
             setInputValue={setCurrentElementLayout}
@@ -252,6 +306,14 @@ const LabelInput = ({inputShowDropdown, setInputShowDropdown, inputDropdownType,
             inputDropdownType={inputDropdownType}
             setInputDropdownType={setInputDropdownType}
           />
+        </div>
+        <div className="addtoqueuecontainer">
+          <button
+            className="label_btn add_to_queue_btn"
+            onClick={addToQueueHandler}
+          >
+            Add to queue
+          </button>
         </div>
         <div className="label_btns">
           <button className="label_btn" name="prev" onClick={nextPrevHandler}>

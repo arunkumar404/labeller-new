@@ -4,12 +4,15 @@ import ElementsGroupFilter from "./ElementsGroupFilter";
 import { useElementsContext } from "../../context";
 import ElementsIndividualFilter from "./ElementsIndividualFilter";
 import LabelInput from "./LabelInput";
+import ElementsLayoutFilter from "./ElementsLayoutFilter";
 const Sidebar = () => {
   const { selectedSidebar,currentHighlightedElement } = useElementsContext();
 
   const [isDragging, setIsDragging] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [inputShowDropdown, setInputShowDropdown] = useState(false);
+  const [ inputDropdownType, setInputDropdownType] = useState('')
 
   const handleMouseDown = (event) => {
     setIsDragging(true);
@@ -36,9 +39,10 @@ const Sidebar = () => {
       onMouseUp={handleMouseUp}
       onMouseLeave={()=>setIsDragging(false)}
     >
+      {selectedSidebar === "layout_filter" && <ElementsLayoutFilter />}
       {selectedSidebar === "group_filter" && <ElementsGroupFilter />}
       {selectedSidebar === "individual_filter" && <ElementsIndividualFilter />}
-      {selectedSidebar === "label_input" && currentHighlightedElement && <LabelInput />}
+      {selectedSidebar === "label_input" && currentHighlightedElement && <LabelInput inputShowDropdown={inputShowDropdown} setInputShowDropdown={setInputShowDropdown} inputDropdownType={inputDropdownType} setInputDropdownType={setInputDropdownType} />}
     </div>
   );
 };

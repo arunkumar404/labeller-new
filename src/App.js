@@ -2,8 +2,7 @@ import React, { useEffect } from "react";
 import "./App.css";
 import Menubar from "./components/Menubar/Menubar";
 import MainDisplay from "./components/MainDisplay";
-import img1 from "./data/E_Commerce/page.png";
-import Sidebar from "./components/Sidebar/Sidebar";
+import img1 from "./data/fuse/page.png";
 import { useElementsContext } from "./context";
 import Toast from "./components/Toast/Toast";
 
@@ -18,9 +17,16 @@ const App = () => {
     setSelectedIndividualElements,
     selectedIndividualElements,
     setCurrentHighlightedElement,
-    toast
+    toast,
+    setTotalSelectedElements,
+    applyLayoutFilters,
+    selectedIndividualElementsLF
   } = useElementsContext([]);
 
+  useEffect(() => {
+    setTotalSelectedElements(selectedIndividualElements.length);
+  }, [selectedIndividualElements]);
+  
   useEffect(() => {
     const disElements = [...new Set(data.map((item) => item.elementType))];
     setDistinctElements(disElements);
@@ -43,9 +49,13 @@ const App = () => {
   }, [selectedGroupElements, data]);
 
   useEffect(() => {
-    setCurrentHighlightedElement(selectedIndividualElements[0]);
+    if (!applyLayoutFilters) {
+      setCurrentHighlightedElement(selectedIndividualElements[0]);
+    } else if (applyLayoutFilters) {
+      setCurrentHighlightedElement(selectedIndividualElementsLF[0]);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedIndividualElements]);
+  }, [selectedIndividualElements,applyLayoutFilters,selectedIndividualElementsLF]);
 
   useEffect(() => {
     const getFileNames = async () => {
@@ -69,7 +79,6 @@ const App = () => {
     <div className="app">
       <Menubar />
       <MainDisplay data={data} img={img1} />
-      <Sidebar data={data} />
       {toast.show && <Toast message={toast.message} type={toast.type} />}
     </div>
   );

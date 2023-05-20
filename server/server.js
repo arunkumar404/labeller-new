@@ -14,25 +14,30 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/api/data", async (req, res) => {
-  const depths = await getDepths("../src/data/E_Commerce/index.json");
+  const depths = await getDepths("../src/data/fuse/index.json");
   const data = [];
   const fileInfos = await getFileNames(
-    path.resolve(__dirname, "..", "src", "data", "E_Commerce", "boundingBox")
+    path.resolve(__dirname, "..", "src", "data", "fuse", "boundingBox")
   );
   for (const fileInfo of fileInfos) {
-    const fileContents = await fs.readFile(fileInfo.filePath, "utf-8");
-    data.push({
-      fileName: fileInfo.fileName,
-      depth: depths[fileInfo.fileName],
-      ...JSON.parse(fileContents),
-    });
+    try {
+      const fileContents = await fs.readFile(fileInfo.filePath, "utf-8");
+      data.push({
+        fileName: fileInfo.fileName,
+        depth: depths[fileInfo.fileName],
+        ...JSON.parse(fileContents),
+      });
+    } catch (err) {
+      console.error('Error reading file:', err);
+      continue;
+    }
   }
   res.json(data);
 });
 app.post("/api/changes", async (req, res) => {
   try {
     await updateFilesWithNewData(
-      path.resolve(__dirname, "..", "src", "data", "E_Commerce", "boundingBox"),
+      path.resolve(__dirname, "..", "src", "data", "fuse", "boundingBox"),
       req.body
     );
     
@@ -46,6 +51,7 @@ app.post("/api/changes", async (req, res) => {
     res.json({
       status: 500,
       message: "There was an error while saving the data",
+      error: err.message,
     });
   }
 });

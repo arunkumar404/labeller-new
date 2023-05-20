@@ -1,23 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { useElementsContext } from "../../context";
+import DropdownInput from "./DropDownInput";
 
-const LabelInput = () => {
+const LabelInput = ({inputShowDropdown, setInputShowDropdown, inputDropdownType,setInputDropdownType}) => {
   const {
     selectedIndividualElements,
     currentHighlightedElement,
     setCurrentHighlightedElement,
     changesQueue,
     setChangesQueue,
-    setToast
+    setToast,
+    totalSelectedElements,
+    applyLayoutFilters,
+    selectedIndividualElementsLF,
   } = useElementsContext([]);
-  const [totalSelectedElements, setTotalSelectedElements] = useState("");
 
   const [currentElementComponent, setCurrentElementComponent] = useState("");
   const [currentElementLayout, setCurrentElementLayout] = useState("");
+  const [showClassModal, setShowClassModal] = useState(false);
 
-  useEffect(() => {
-    setTotalSelectedElements(selectedIndividualElements.length);
-  }, [selectedIndividualElements]);
+  const ComponentsList = ['TextField','Button','AppBar','Checkbox', 'Radio','Typography','Chip','Divider','Form','List','Select'];
+  const LayoutList = ['Row-Container','Column-Container'];
 
   const nextPrevHandler = (e) => {
     const currentElementChangeIndex = changesQueue.findIndex(
@@ -32,7 +35,7 @@ const LabelInput = () => {
           elementType: currentHighlightedElement.elementType,
           component: currentElementComponent,
           layout: currentElementLayout,
-          classNames: currentHighlightedElement.classNames
+          classNames: currentHighlightedElement.classNames,
         },
       ]);
     } else {
@@ -43,7 +46,7 @@ const LabelInput = () => {
               elementType: currentHighlightedElement.elementType,
               component: currentElementComponent,
               layout: currentElementLayout,
-              classNames: currentHighlightedElement.classNames
+              classNames: currentHighlightedElement.classNames,
             }
           : element
       );
@@ -51,25 +54,41 @@ const LabelInput = () => {
     }
 
     const clickType = e.target.name;
-    const totalSelectedElements = selectedIndividualElements.length;
-
-    let currentElementIndex = selectedIndividualElements.indexOf(
-      currentHighlightedElement
-    );
+    let totalSelectedElementsLocal;
+    let currentElementIndex;
+    if (!applyLayoutFilters) {
+      totalSelectedElementsLocal = selectedIndividualElements.length;
+      currentElementIndex = selectedIndividualElements.indexOf(
+        currentHighlightedElement
+      );
+    } else if (applyLayoutFilters) {
+      totalSelectedElementsLocal = selectedIndividualElementsLF.length;
+      currentElementIndex = selectedIndividualElementsLF.indexOf(
+        currentHighlightedElement
+      );
+    }
 
     let next = currentElementIndex + 1;
     let prev = currentElementIndex - 1;
 
-    if (next === totalSelectedElements) {
+    if (next === totalSelectedElementsLocal) {
       next = 0;
     }
     if (prev < 0) {
-      prev = totalSelectedElements - 1;
+      prev = totalSelectedElementsLocal - 1;
     }
     if (clickType === "next") {
-      setCurrentHighlightedElement(selectedIndividualElements[next]);
+      if (!applyLayoutFilters) {
+        setCurrentHighlightedElement(selectedIndividualElements[next]);
+      } else if (applyLayoutFilters) {
+        setCurrentHighlightedElement(selectedIndividualElementsLF[next]);
+      }
     } else if (clickType === "prev") {
-      setCurrentHighlightedElement(selectedIndividualElements[prev]);
+      if (!applyLayoutFilters) {
+        setCurrentHighlightedElement(selectedIndividualElements[prev]);
+      } else if (applyLayoutFilters) {
+        setCurrentHighlightedElement(selectedIndividualElementsLF[prev]);
+      }
     }
   };
 
@@ -98,19 +117,26 @@ const LabelInput = () => {
 
       const data = await response.json();
       if (response.status === 200) {
-        setToast({ show: true, message: data.message, type: 'success' })
+        setToast({ show: true, message: data.message, type: "success" });
       } else {
-        setToast({ show: true, message: data.message, type: 'error' })
+        setToast({ show: true, message: data.message, type: "error" });
       }
     } catch (error) {
       console.error(error);
     }
   };
 
+  const handleClassContainerClick = () => {
+    setShowClassModal(!showClassModal);
+  };
+
   return (
     <div className="label_input_container">
       <p>
         Total Selected Elements: <strong>{totalSelectedElements}</strong>
+      </p>
+      <p>
+        Element Id :<strong> {currentHighlightedElement.fileName}</strong>
       </p>
       <h4>Highlighted Element</h4>
       <div className="highlighted_element_details">
@@ -124,11 +150,48 @@ const LabelInput = () => {
         </div>
         <div className="single_detail">
           <p>Layout:</p>
-          <strong>{currentHighlightedElement?.layout}</strong>
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "10px",
+            }}
+          >
+            <strong>
+              {currentHighlightedElement?.layout?.rowContainer === true
+                ? "Row-Container"
+                : currentHighlightedElement?.layout?.columnContainer === true
+                ? "Column-Container"
+                : ""}
+            </strong>
+          </div>
         </div>
         <div className="single_detail">
           <p>Class:</p>
-          <strong>{currentHighlightedElement?.classNames}</strong>
+          <div
+            className={`class_container ${
+              showClassModal ? "hide_class_container" : ""
+            }`}
+            onClick={handleClassContainerClick}
+          >
+            <strong>{currentHighlightedElement?.classNames}</strong>
+            <strong>
+              <span>...</span>
+            </strong>
+          </div>
+          <div
+            className={`full_class_modal ${
+              showClassModal ? "show_class_modal" : ""
+            }`}
+          >
+            <strong
+              className="close_btn"
+              onClick={() => setShowClassModal(!showClassModal)}
+            >
+              X
+            </strong>
+            <strong>{currentHighlightedElement?.classNames}</strong>
+          </div>
         </div>
         <h5>Co-ordinates & Size</h5>
         <div className="detail_row">
@@ -166,18 +229,28 @@ const LabelInput = () => {
         <h4>Label Editor</h4>
         <div className="single_detail">
           <p>Component:</p>
-          <input
-            type="text"
-            value={currentElementComponent}
-            onChange={(e) => setCurrentElementComponent(e.target.value)}
+          <DropdownInput
+            type='component'
+            options={ComponentsList}
+            inputValue={currentElementComponent}
+            setInputValue={setCurrentElementComponent}
+            inputShowDropdown={inputShowDropdown}
+            setInputShowDropdown={setInputShowDropdown}
+            inputDropdownType={inputDropdownType}
+            setInputDropdownType={setInputDropdownType}
           />
         </div>
         <div className="single_detail">
           <p>Layout:</p>
-          <input
-            type="text"
-            value={currentElementLayout}
-            onChange={(e) => setCurrentElementLayout(e.target.value)}
+          <DropdownInput
+            type='layout'
+            options={LayoutList}
+            inputValue={currentElementLayout}
+            setInputValue={setCurrentElementLayout}
+            inputShowDropdown={inputShowDropdown}
+            setInputShowDropdown={setInputShowDropdown}
+            inputDropdownType={inputDropdownType}
+            setInputDropdownType={setInputDropdownType}
           />
         </div>
         <div className="label_btns">

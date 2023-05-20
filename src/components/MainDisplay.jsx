@@ -1,22 +1,62 @@
-import React from "react";
+import React, { useEffect } from "react";
 import BoundingBox from "./BoundingBox/BoundingBox";
 import { useElementsContext } from "../context";
 
 const MainDisplay = ({ data, img }) => {
-  const { selectedIndividualElements, currentHighlightedElement } =
-    useElementsContext([]);
+  const {
+    selectedIndividualElements,
+    currentHighlightedElement,
+    layoutFilterType,
+    selectedIndividualElementsLF,
+    setSelectedIndividualElementsLF,
+    applyLayoutFilters,
+  } = useElementsContext([]);
+
+  useEffect(() => {
+    let tempArray = [];
+    if (layoutFilterType.includes("row-container")) {
+      tempArray = [
+        ...tempArray,
+        ...selectedIndividualElements.filter(
+          (element) => element?.layout?.rowContainer === true
+        ),
+      ];
+    }
+    if (layoutFilterType.includes("column-container")) {
+      tempArray = [
+        ...tempArray,
+        ...selectedIndividualElements.filter(
+          (element) => element?.layout?.columnContainer === true
+        ),
+      ];
+    }
+    if (layoutFilterType.includes("unnamed")) {
+      tempArray = [
+        ...tempArray,
+        ...selectedIndividualElements.filter(
+          (element) =>
+            element?.layout?.rowContainer === false &&
+            element?.layout?.columnContainer === false
+        ),
+      ];
+    }
+    setSelectedIndividualElementsLF([...tempArray]);
+  }, [selectedIndividualElements, layoutFilterType]);
 
   return (
     <div
       style={{
-        marginTop: "1rem",
+        marginTop: "calc(70px + 1rem)",
         position: "relative",
         width: "fit-content",
         height: "fit-content",
       }}
     >
       <img src={img} alt="img1" className="main_image" />
-      {selectedIndividualElements.map((item, i) => {
+      {(!applyLayoutFilters
+        ? selectedIndividualElements
+        : selectedIndividualElementsLF
+      ).map((item, i) => {
         const isHighlighted =
           item.fileName === currentHighlightedElement?.fileName;
         return (

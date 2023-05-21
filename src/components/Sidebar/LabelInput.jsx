@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useElementsContext } from "../../context";
 import DropdownInput from "./DropDownInput";
+import CustomCheckbox from "../Util/CustomCheckbox";
 
 const LabelInput = ({
   inputShowDropdown,
@@ -23,6 +24,8 @@ const LabelInput = ({
   const [currentElementComponent, setCurrentElementComponent] = useState("");
   const [currentElementLayout, setCurrentElementLayout] = useState("");
   const [showClassModal, setShowClassModal] = useState(false);
+  const [isCommonClassEnabled, setIsCommonClassEnabled] = useState(true);
+  const [commonClasses, setCommonClasses] = useState([]);
 
   const ComponentsList = [
     "TextField",
@@ -38,6 +41,21 @@ const LabelInput = ({
     "Select",
   ];
   const LayoutList = ["Row-Container", "Column-Container"];
+
+  const classSelectorButtonClickHandler = () => {
+    const currentElementClasses = currentHighlightedElement?.classNames.split(' ')
+    setCommonClasses([...currentElementClasses])
+  }
+
+  const handleCommonClassCheckboxChange = () => {
+    setIsCommonClassEnabled(!isCommonClassEnabled);
+  };
+  const handleCommonClassInputChange = (e) => {
+    const currentValue = e.target.value;
+    let tempClasses = currentValue.split(' ')
+    setCommonClasses([...tempClasses])
+    console.log(commonClasses);
+  }
 
   const addToQueue = () => {
     const currentElementChangeIndex = changesQueue.findIndex(
@@ -75,7 +93,6 @@ const LabelInput = ({
     addToQueue();
   };
 
-  
   const nextPrevHandler = (e) => {
     addToQueue();
 
@@ -96,7 +113,7 @@ const LabelInput = ({
 
     let next = currentElementIndex + 1;
     let prev = currentElementIndex - 1;
-    
+
     if (next === totalSelectedElementsLocal) {
       next = 0;
     }
@@ -121,7 +138,7 @@ const LabelInput = ({
   useEffect(() => {
     const currentElementChangesQueued = changesQueue.find(
       (element) => element.fileName === currentHighlightedElement.fileName
-      );
+    );
     if (currentElementChangesQueued) {
       setCurrentElementComponent(currentElementChangesQueued.component);
       setCurrentElementLayout(currentElementChangesQueued.layout);
@@ -132,14 +149,16 @@ const LabelInput = ({
   }, [currentHighlightedElement]);
 
   const deleteBBHandler = async () => {
-
     try {
-      const response = await fetch(`http://localhost:5000/api/deletebb/${currentHighlightedElement.fileName}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await fetch(
+        `http://localhost:5000/api/deletebb/${currentHighlightedElement.fileName}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       const data = await response.json();
 
@@ -151,7 +170,7 @@ const LabelInput = ({
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   const saveProgressHandler = async () => {
     try {
@@ -273,12 +292,9 @@ const LabelInput = ({
           </div>
         </div>
       </div>
-        <button
-          className="label_btn delete_bb_btn"
-          onClick={deleteBBHandler}
-        >
-          Delete Bounding Box
-        </button>
+      <button className="label_btn delete_bb_btn" onClick={deleteBBHandler}>
+        Delete Bounding Box
+      </button>
       <div className="labelling_block">
         <h4>Label Editor</h4>
         <div className="single_detail">
@@ -307,6 +323,23 @@ const LabelInput = ({
             setInputDropdownType={setInputDropdownType}
           />
         </div>
+        <div className="commonClassSelectorContainer">
+          <CustomCheckbox
+            label="Common Class"
+            isChecked={isCommonClassEnabled}
+            handleChange={handleCommonClassCheckboxChange}
+          />
+          <button onClick={classSelectorButtonClickHandler}>Add all current classes</button>
+        </div>
+        <div className="single_detail">
+          <p>Classes:</p>
+          <input
+            type="text"
+            value={commonClasses.join(' ')}
+            onChange={handleCommonClassInputChange}
+          />
+        </div>
+
         <div className="addtoqueuecontainer">
           <button
             className="label_btn add_to_queue_btn"

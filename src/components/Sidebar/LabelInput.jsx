@@ -28,18 +28,45 @@ const LabelInput = ({
   const [commonClasses, setCommonClasses] = useState([]);
 
   const ComponentsList = [
-    "TextField",
     "Button",
-    "AppBar",
+    "Divider",
+    "Card",
+    "CardHeader",
+    "CardBody",
+    "CardFooter",
+    "Table",
+    "TableHead",
+    "TableRow",
+    "TableCell",
+    "TableBody",
+    "Header",
+    "Footer",
+    "Tabs",
+    "Tab",
+    "List",
+    "ListItem",
+    "Sidebar",
+    "Accordion",
+    "Select",
+    "Icon",
+    "Image",
+    "Form",
+    "Input",
     "Checkbox",
     "Radio",
+    "RadioGroup",
     "Typography",
-    "Chip",
-    "Divider",
-    "Form",
-    "List",
-    "Select",
+    "Avatar",
+    "Slider",
+    "Switch",
+    "Badge",
+    "Progress",
+    "Breadcrumbs",
+    "Link",
+    "Menu",
+    "Pagination"
   ];
+  
   const LayoutList = ["Row-Container", "Column-Container"];
 
   const classSelectorButtonClickHandler = () => {

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./BoundingBox.css";
 import { useElementsContext } from "../../context";
+import { colorsComponentLink } from '../Util/colorsComponentLink'
+
 const BoundingBox = ({
   width,
   height,
@@ -13,8 +15,10 @@ const BoundingBox = ({
   fileName,
   isHighlighted,
   depth,
+  component
 }) => {
   const [isHovering, setIsHovering] = useState(false);
+  const componentDefaultColor = colorsComponentLink[component];
   const { selectedIndividualElements, setCurrentHighlightedElement } =
     useElementsContext();
 
@@ -54,7 +58,7 @@ const BoundingBox = ({
         zIndex: depth,
         boxSizing: "border-box",
         borderColor: `${
-          isHighlighted ? "red" : isHovering ? "#114df3" : "#41f11e"
+          isHighlighted ? "red" : isHovering ? "#114df3" : componentDefaultColor
         }`,
         backgroundColor: `${
           isHighlighted ? "#f5cece53" : isHovering ? "#98b2f72d" : ""

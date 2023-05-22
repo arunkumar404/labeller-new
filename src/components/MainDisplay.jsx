@@ -73,6 +73,7 @@ const MainDisplay = ({ data, img }) => {
             isHighlighted={isHighlighted}
             fileName={item.fileName}
             depth={item.depth}
+            component={item.component}
           />
         );
       })}

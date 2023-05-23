@@ -63,6 +63,7 @@ const App = () => {
         const response = await fetch("http://localhost:5000/api/data");
         const data = await response.json();
         setData(data);
+        console.log(JSON.stringify(data));
       } catch (err) {
         console.log(err);
       }

@@ -2,10 +2,11 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const {
-  getFileNames,
+  // getFileNames,
   updateFilesWithNewData,
   getDepths,
   updateAllFiles,
+  getOrderArray,
 } = require("./utils.js");
 const path = require("path");
 const fs = require("fs/promises");
@@ -16,15 +17,18 @@ app.use(express.json());
 app.get("/api/data", async (req, res) => {
   const depths = await getDepths("../src/data/fuse/index.json");
   const data = [];
-  const fileInfos = await getFileNames(
-    path.resolve(__dirname, "..", "src", "data", "fuse", "boundingBox")
-  );
-  for (const fileInfo of fileInfos) {
+  // const fileInfos = await getFileNames(
+  //   path.resolve(__dirname, "..", "src", "data", "fuse", "boundingBox")
+  // );
+
+  const orderedElements = await getOrderArray( "../src/data/fuse/index.json" )
+
+  for (const orderedElement of orderedElements) {
     try {
-      const fileContents = await fs.readFile(fileInfo.filePath, "utf-8");
+      const fileContents = await fs.readFile(path.join(path.resolve(__dirname,"..","src","data","fuse","boundingBox",`${orderedElement}.json`)), "utf-8");
       data.push({
-        fileName: fileInfo.fileName,
-        depth: depths[fileInfo.fileName],
+        fileName: orderedElement,
+        depth: depths[orderedElement],
         ...JSON.parse(fileContents),
       });
     } catch (err) {

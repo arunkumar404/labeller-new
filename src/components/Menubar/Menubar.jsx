@@ -37,7 +37,7 @@ const Menubar = () => {
           </p>
         </div>
         <button
-          class={`button-55 ${
+          className={`button-55 ${
             selectedSidebar === "layout_filter" && "selected"
           } ${
             applyLayoutFilters
@@ -50,7 +50,7 @@ const Menubar = () => {
           Layout Filter
         </button>
         <button
-          class={`button-55 ${
+          className={`button-55 ${
             selectedSidebar === "group_filter" && "selected"
           }`}
           name="group_filter"
@@ -59,7 +59,7 @@ const Menubar = () => {
           Group Filter
         </button>
         <button
-          class={`button-55 ${
+          className={`button-55 ${
             selectedSidebar === "individual_filter" && "selected"
           }`}
           name="individual_filter"
@@ -68,7 +68,7 @@ const Menubar = () => {
           Individual Filter
         </button>
         <button
-          class={`button-55 ${selectedSidebar === "label_input" && "selected"}`}
+          className={`button-55 ${selectedSidebar === "label_input" && "selected"}`}
           name="label_input"
           onClick={handleSidebarToggle}
         >

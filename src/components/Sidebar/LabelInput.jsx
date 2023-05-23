@@ -71,7 +71,9 @@ const LabelInput = ({
 
   const classSelectorButtonClickHandler = () => {
     const currentElementClasses = currentHighlightedElement?.classNames.split(' ')
-    setCommonClasses([...currentElementClasses])
+    if (isCommonClassEnabled) {
+      setCommonClasses([...currentElementClasses])
+    }
   }
 
   const handleCommonClassCheckboxChange = () => {
@@ -80,8 +82,9 @@ const LabelInput = ({
   const handleCommonClassInputChange = (e) => {
     const currentValue = e.target.value;
     let tempClasses = currentValue.split(' ')
-    setCommonClasses([...tempClasses])
-    console.log(commonClasses);
+    if (isCommonClassEnabled) {
+      setCommonClasses([...tempClasses])
+    }
   }
 
   const addToQueue = () => {

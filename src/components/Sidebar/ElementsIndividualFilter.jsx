@@ -20,7 +20,7 @@ const ElementsIndividualFilter = () => {
     if (checkboxInput.checked) {
       setSelectedIndividualElements([
         ...selectedIndividualElements.filter(
-          (item) => item.fileName !== clickedElement.fileName
+          (item) => item._id !== clickedElement._id
         ),
       ]);
       checkboxInput.checked = false;
@@ -38,7 +38,7 @@ const ElementsIndividualFilter = () => {
     if (checkboxInput.checked) {
       setSelectedIndividualElements([
         ...selectedIndividualElements.filter(
-          (item) => item.fileName !== clickedElement.fileName
+          (item) => item._id !== clickedElement._id
         ),
       ]);
       checkboxInput.checked = false;
@@ -85,7 +85,7 @@ const ElementsIndividualFilter = () => {
       {individualElements.map((element) => {
         return (
           <div
-            key={element.filename}
+            key={element._id}
             className="elements"
             onClick={handleFilterSelect}
           >
@@ -94,7 +94,7 @@ const ElementsIndividualFilter = () => {
               name={element.elementType}
               value={JSON.stringify(element)}
               checked={selectedIndividualElements.some(
-                (item) => item.fileName === element.fileName
+                (item) => item._id === element._id
               )}
               onClick={handleCheckboxFilterSelect}
             />

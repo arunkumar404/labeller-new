@@ -1,86 +1,21 @@
-import React, { useEffect } from "react";
-import "./App.css";
-import Menubar from "./components/Menubar/Menubar";
-import MainDisplay from "./components/MainDisplay";
-import img1 from "./data/fuse/page.png";
-import { useElementsContext } from "./context";
-import Toast from "./components/Toast/Toast";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import './App.css';
+import TemplateList from './pages/TemplateList';
+import ScreenList from './pages/ScreenList';
+import Label from './pages/Label';
 
 const App = () => {
-  const {
-    data,
-    setData,
-    selectedGroupElements,
-    setSelectedGroupElements,
-    setDistinctElements,
-    setIndividualElements,
-    setSelectedIndividualElements,
-    selectedIndividualElements,
-    setCurrentHighlightedElement,
-    toast,
-    setTotalSelectedElements,
-    applyLayoutFilters,
-    selectedIndividualElementsLF
-  } = useElementsContext([]);
-
-  useEffect(() => {
-    setTotalSelectedElements(selectedIndividualElements.length);
-  }, [selectedIndividualElements]);
-  
-  useEffect(() => {
-    const disElements = [...new Set(data.map((item) => item.elementType))];
-    setDistinctElements(disElements);
-    setSelectedGroupElements(disElements);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
-
-  useEffect(() => {
-    setIndividualElements([
-      ...data.filter((item) =>
-        selectedGroupElements.includes(item.elementType)
-      ),
-    ]);
-    setSelectedIndividualElements([
-      ...data.filter((item) =>
-        selectedGroupElements.includes(item.elementType)
-      ),
-    ]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedGroupElements, data]);
-
-  useEffect(() => {
-    if (!applyLayoutFilters) {
-      setCurrentHighlightedElement(selectedIndividualElements[0]);
-    } else if (applyLayoutFilters) {
-      setCurrentHighlightedElement(selectedIndividualElementsLF[0]);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedIndividualElements,applyLayoutFilters,selectedIndividualElementsLF]);
-
-  useEffect(() => {
-    const getFileNames = async () => {
-      try {
-        const response = await fetch("http://localhost:5000/api/data");
-        const data = await response.json();
-        setData(data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getFileNames();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  if (data === null) {
-    return <div>Loading data...</div>;
-  }
-
   return (
-    <div className="app">
-      <Menubar />
-      <MainDisplay data={data} img={img1} />
-      {toast.show && <Toast message={toast.message} type={toast.type} />}
-    </div>
+    <Router>
+      <div className="app">
+        <Routes>
+          <Route path="/" element={<TemplateList />} />
+          <Route path="/:templateId/screens" element={<ScreenList />} />
+          <Route path="/:templateId/:screenId" element={<Label />} />
+        </Routes>
+      </div>
+    </Router>
   );
 };
 

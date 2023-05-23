@@ -24,14 +24,14 @@ const LabelInput = ({inputShowDropdown, setInputShowDropdown, inputDropdownType,
 
   const nextPrevHandler = (e) => {
     const currentElementChangeIndex = changesQueue.findIndex(
-      (element) => element.fileName === currentHighlightedElement.fileName
+      (element) => element._id === currentHighlightedElement._id
     );
 
     if (currentElementChangeIndex === -1) {
       setChangesQueue([
         ...changesQueue,
         {
-          fileName: currentHighlightedElement.fileName,
+          _id: currentHighlightedElement._id,
           elementType: currentHighlightedElement.elementType,
           component: currentElementComponent,
           layout: currentElementLayout,
@@ -40,9 +40,9 @@ const LabelInput = ({inputShowDropdown, setInputShowDropdown, inputDropdownType,
       ]);
     } else {
       const updatedChangesQueue = changesQueue.map((element) =>
-        element.fileName === currentHighlightedElement.fileName
+        element._id === currentHighlightedElement._id
           ? {
-              fileName: currentHighlightedElement.fileName,
+              _id: currentHighlightedElement._id,
               elementType: currentHighlightedElement.elementType,
               component: currentElementComponent,
               layout: currentElementLayout,
@@ -94,7 +94,7 @@ const LabelInput = ({inputShowDropdown, setInputShowDropdown, inputDropdownType,
 
   useEffect(() => {
     const currentElementChangesQueued = changesQueue.find(
-      (element) => element.fileName === currentHighlightedElement.fileName
+      (element) => element._id === currentHighlightedElement._id
     );
     if (currentElementChangesQueued) {
       setCurrentElementComponent(currentElementChangesQueued.component);
@@ -136,7 +136,7 @@ const LabelInput = ({inputShowDropdown, setInputShowDropdown, inputDropdownType,
         Total Selected Elements: <strong>{totalSelectedElements}</strong>
       </p>
       <p>
-        Element Id :<strong> {currentHighlightedElement.fileName}</strong>
+        Element Id :<strong> {currentHighlightedElement._id}</strong>
       </p>
       <h4>Highlighted Element</h4>
       <div className="highlighted_element_details">

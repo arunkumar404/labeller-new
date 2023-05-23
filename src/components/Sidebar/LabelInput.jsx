@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useElementsContext } from "../../context";
 import DropdownInput from "./DropDownInput";
 import CustomCheckbox from "../Util/CustomCheckbox";
+import { ComponentsList } from "../../constants/component.contant";
 
 const LabelInput = ({
   inputShowDropdown,
@@ -25,67 +26,34 @@ const LabelInput = ({
   const [currentElementLayout, setCurrentElementLayout] = useState("");
   const [showClassModal, setShowClassModal] = useState(false);
   const [isCommonClassEnabled, setIsCommonClassEnabled] = useState(false);
-  const [commonClasses, setCommonClasses] = useState([]);
+  const [commonClasses, setCommonClasses] = useState('');
 
-  const ComponentsList = [
-    "Button",
-    "Divider",
-    "Card",
-    "CardHeader",
-    "CardBody",
-    "CardFooter",
-    "Table",
-    "TableHead",
-    "TableRow",
-    "TableCell",
-    "TableBody",
-    "Header",
-    "Footer",
-    "Tabs",
-    "Tab",
-    "List",
-    "ListItem",
-    "Sidebar",
-    "Accordion",
-    "Select",
-    "Icon",
-    "Image",
-    "Form",
-    "Input",
-    "Checkbox",
-    "Radio",
-    "RadioGroup",
-    "Typography",
-    "Avatar",
-    "Slider",
-    "Switch",
-    "Badge",
-    "Progress",
-    "Breadcrumbs",
-    "Link",
-    "Menu",
-    "Pagination"
-  ];
-  
   const LayoutList = ["Row-Container", "Column-Container"];
 
   const classSelectorButtonClickHandler = () => {
-    const currentElementClasses = currentHighlightedElement?.classNames.split(' ')
+    const currentElementClasses =
+      currentHighlightedElement?.classNames;
     if (isCommonClassEnabled) {
-      setCommonClasses([...currentElementClasses])
+      setCommonClasses(currentElementClasses);
     }
-  }
+  };
+
+  const isClassRequired = () => {
+    setCurrentHighlightedElement({
+      ...currentHighlightedElement,
+      isClassRequired: !currentHighlightedElement?.isClassRequired,
+    });
+  };
 
   const handleCommonClassCheckboxChange = () => {
     setIsCommonClassEnabled(!isCommonClassEnabled);
   };
   const handleCommonClassInputChange = (e) => {
     const currentValue = e.target.value;
-    let tempClasses = currentValue.split(' ')
     if (isCommonClassEnabled) {
-      setCommonClasses([...tempClasses])
+      setCommonClasses(currentValue);
     }
-  }
+  };
 
   const addToQueue = () => {
     const currentElementChangeIndex = changesQueue.findIndex(
@@ -101,6 +69,8 @@ const LabelInput = ({
           component: currentElementComponent,
           layout: currentElementLayout,
           classNames: currentHighlightedElement.classNames,
+          isClassRequired: currentHighlightedElement?.isClassRequired,
+          commonClasses: commonClasses || null,
         },
       ]);
     } else {
@@ -112,6 +82,8 @@ const LabelInput = ({
               component: currentElementComponent,
               layout: currentElementLayout,
               classNames: currentHighlightedElement.classNames,
+              isClassRequired: currentHighlightedElement?.isClassRequired,
+              commonClasses: commonClasses || null,
             }
           : element
       );
@@ -124,7 +96,7 @@ const LabelInput = ({
   };
 
   const nextPrevHandler = (e) => {
-    addToQueue();
+    // addToQueue();
 
     const clickType = e.target.name;
     let totalSelectedElementsLocal;
@@ -355,20 +327,28 @@ const LabelInput = ({
         </div>
         <div className="commonClassSelectorContainer">
           <CustomCheckbox
+            label="Add Class"
+            isChecked={currentHighlightedElement?.isClassRequired}
+            handleChange={isClassRequired}
+          />
+          <CustomCheckbox
             label="Common Class"
             isChecked={isCommonClassEnabled}
             handleChange={handleCommonClassCheckboxChange}
+            isDisabled={!currentHighlightedElement?.isClassRequired}
           />
-          <button onClick={classSelectorButtonClickHandler}>Add all current classes</button>
         </div>
         <div className="single_detail">
           <p>Classes:</p>
           <input
-            disabled={!isCommonClassEnabled}
+            disabled={
+              !isCommonClassEnabled ||
+              !currentHighlightedElement?.isClassRequired
+            }
             type="text"
-            value={commonClasses.join(' ')}
+            value={commonClasses || ''}
             onChange={handleCommonClassInputChange}
-            className={`${!isCommonClassEnabled && 'disabledClassInput' }`}
+            className={`${!isCommonClassEnabled && "disabledClassInput"}`}
           />
         </div>
 

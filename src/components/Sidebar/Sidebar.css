@@ -243,3 +243,6 @@
   display: flex;
   justify-content: center;
 }
+.disabledClassInput{
+  background-color: #a09c9c !important;
+}

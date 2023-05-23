@@ -24,7 +24,7 @@ const LabelInput = ({
   const [currentElementComponent, setCurrentElementComponent] = useState("");
   const [currentElementLayout, setCurrentElementLayout] = useState("");
   const [showClassModal, setShowClassModal] = useState(false);
-  const [isCommonClassEnabled, setIsCommonClassEnabled] = useState(true);
+  const [isCommonClassEnabled, setIsCommonClassEnabled] = useState(false);
   const [commonClasses, setCommonClasses] = useState([]);
 
   const ComponentsList = [
@@ -364,9 +364,11 @@ const LabelInput = ({
         <div className="single_detail">
           <p>Classes:</p>
           <input
+            disabled={!isCommonClassEnabled}
             type="text"
             value={commonClasses.join(' ')}
             onChange={handleCommonClassInputChange}
+            className={`${!isCommonClassEnabled && 'disabledClassInput' }`}
           />
         </div>
 

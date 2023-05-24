@@ -1,5 +1,7 @@
 .app {
   position: relative;
+  /* margin-inline: 20rem;
+  margin-top: 2rem; */
 }
 .mainImage {
   width: fit-content;

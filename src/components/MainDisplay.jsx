@@ -58,7 +58,7 @@ const MainDisplay = ({ data, img }) => {
         : selectedIndividualElementsLF
       ).map((item, i) => {
         const isHighlighted =
-          item.fileName === currentHighlightedElement?.fileName;
+          item._id === currentHighlightedElement?._id;
         return (
           <BoundingBox
             key={`${item.elementType}${i}`}
@@ -71,7 +71,7 @@ const MainDisplay = ({ data, img }) => {
             border="1px solid #b5d834"
             position="absolute"
             isHighlighted={isHighlighted}
-            fileName={item.fileName}
+            _id={item._id}
             depth={item.depth}
             component={item.component}
           />

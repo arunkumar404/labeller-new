@@ -12,7 +12,7 @@ const BoundingBox = ({
   left,
   border,
   position,
-  fileName,
+  _id,
   isHighlighted,
   depth,
   component
@@ -24,7 +24,7 @@ const BoundingBox = ({
 
   const handleMouseEnter = (e) => {
     const isInSelectedList = selectedIndividualElements.some(
-      (element) => element.fileName === e.target.dataset.id
+      (element) => element._id === e.target.dataset.id
     );
     if (isInSelectedList) {
       setIsHovering(true);
@@ -35,11 +35,11 @@ const BoundingBox = ({
   };
   const handleClick = (e) => {
     const isInSelectedList = selectedIndividualElements.some(
-      (element) => element.fileName === e.target.dataset.id
+      (element) => element._id === e.target.dataset.id
     );
     if (isInSelectedList) {
       const foundElement = selectedIndividualElements.find((element) => {
-        return element.fileName === e.target.dataset.id;
+        return element._id === e.target.dataset.id;
       });
       setCurrentHighlightedElement(foundElement);
     }
@@ -68,7 +68,7 @@ const BoundingBox = ({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={handleClick}
-      data-id={fileName}
+      data-id={_id}
     />
   );
 };

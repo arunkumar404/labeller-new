@@ -81,5 +81,36 @@ const getDepths = async (filePath) => {
   const depths = computeDepths(tree);
   return depths;
 };
-module.exports = { getFileNames, updateFilesWithNewData, getDepths, updateAllFiles };
+
+
+const depthFirstTraversal = (parentChildObj, parentKey, resultArray, isRoot=false) => {
+  if (!isRoot) { 
+    resultArray.push(parentKey);
+  }
+  const children = parentChildObj[parentKey].children;
+
+  for (const child of children) {
+    depthFirstTraversal(parentChildObj, child, resultArray);
+  }
+}
+
+const getOrderArray = async (hierarchyFilePath) => {
+  
+  const temp = await fs.readFile(hierarchyFilePath, "utf-8");
+
+  const parentChildObj = JSON.parse(temp)
+
+  const resultArray = [];
+
+  for (const key in parentChildObj) {
+    if (parentChildObj.hasOwnProperty(key) && !parentChildObj[key].parent) {
+      depthFirstTraversal(parentChildObj, key, resultArray,true);
+    }
+  }
+
+  return resultArray;
+}
+
+
+module.exports = { getFileNames, updateFilesWithNewData, getDepths, updateAllFiles,getOrderArray };
 

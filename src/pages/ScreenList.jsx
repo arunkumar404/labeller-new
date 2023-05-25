@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./ScreenList.css";
 import { STATUS_CODE } from "../constants/constants";
+import env from "../conf/env";
 const ScreenList = () => {
   const { templateId } = useParams();
 
@@ -11,7 +12,7 @@ const ScreenList = () => {
 
   const getTemplates = async () => {
     try {
-      const response = await fetch(`http://localhost:4000/screen/getAll/${templateId}`);
+      const response = await fetch(`${env.REACT_APP_HTTP_URL}/screen/getAll/${templateId}`);
       const data = await response.json();
       setScreens(data.screens);
     } catch (err) {

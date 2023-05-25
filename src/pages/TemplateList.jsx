@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./TemplateList.css";
 import { STATUS_CODE } from "../constants/constants";
+import env from "../conf/env";
 const TemplateList = () => {
   const [templates, setTemplates] = useState([]);
 
   const getTemplates = async () => {
     try {
-      const response = await fetch("http://localhost:4000/template/getAll");
+      const response = await fetch(`${env.REACT_APP_HTTP_URL}/template/getAll`);
       const data = await response.json();
       setTemplates(data.templates);
     } catch (err) {

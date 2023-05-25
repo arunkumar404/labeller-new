@@ -6,6 +6,7 @@ import MainDisplay from "../components/MainDisplay";
 import { useElementsContext } from "../context";
 import Toast from "../components/Toast/Toast";
 import { useParams } from "react-router-dom";
+import env from "../conf/env";
 
 const Label = () => {
   const { templateId, screenId } = useParams();
@@ -65,7 +66,7 @@ const Label = () => {
   useEffect(() => {
     const getFileNames = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/node/private/getDom/${screenId}`);
+        const response = await fetch(`${env.REACT_APP_HTTP_URL}/node/private/getDom/${screenId}`);
         const data = await response.json();
         setData(data.data.nodes);
         setImage_url(data.data.screen_url)

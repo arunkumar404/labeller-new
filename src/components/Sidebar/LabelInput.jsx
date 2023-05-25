@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useElementsContext } from "../../context";
 import DropdownInput from "./DropDownInput";
 import CustomCheckbox from "../Util/CustomCheckbox";
+import env from "../../conf/env";
 
 const LabelInput = ({
   inputShowDropdown,
@@ -25,7 +26,8 @@ const LabelInput = ({
   const [currentElementLayout, setCurrentElementLayout] = useState("");
   const [showClassModal, setShowClassModal] = useState(false);
   const [isCommonClassEnabled, setIsCommonClassEnabled] = useState(false);
-  const [commonClasses, setCommonClasses] = useState([]);
+  const [commonClasses, setCommonClasses] = useState();
+  const [isClassRequired, setIsClassRequired] = useState(false)
 
   const ComponentsList = [
     "Button",
@@ -70,10 +72,14 @@ const LabelInput = ({
   const LayoutList = ["Row-Container", "Column-Container"];
 
   const classSelectorButtonClickHandler = () => {
-    const currentElementClasses = currentHighlightedElement?.classNames.split(' ')
+    const currentElementClasses = currentHighlightedElement?.classNames
     if (isCommonClassEnabled) {
-      setCommonClasses([...currentElementClasses])
+      setCommonClasses(currentElementClasses)
     }
+  }
+
+  const classNameRequired = () => {
+    setIsClassRequired(!isClassRequired)
   }
 
   const handleCommonClassCheckboxChange = () => {
@@ -81,9 +87,9 @@ const LabelInput = ({
   };
   const handleCommonClassInputChange = (e) => {
     const currentValue = e.target.value;
-    let tempClasses = currentValue.split(' ')
+    let tempClasses = currentValue
     if (isCommonClassEnabled) {
-      setCommonClasses([...tempClasses])
+      setCommonClasses(tempClasses)
     }
   }
 
@@ -101,6 +107,8 @@ const LabelInput = ({
           component: currentElementComponent,
           layout: currentElementLayout,
           classNames: currentHighlightedElement.classNames,
+          isClassRequired: isClassRequired,
+          commonClasses: commonClasses
         },
       ]);
     } else {
@@ -112,6 +120,8 @@ const LabelInput = ({
               component: currentElementComponent,
               layout: currentElementLayout,
               classNames: currentHighlightedElement.classNames,
+              isClassRequired: isClassRequired,
+              commonClasses: commonClasses
             }
           : element
       );
@@ -181,7 +191,7 @@ const LabelInput = ({
   const deleteBBHandler = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/deletebb/${currentHighlightedElement.fileName}`,
+        `${env.REACT_APP_HTTP_URL}/node/public/delete/${currentHighlightedElement._id}`,
         {
           method: "DELETE",
           headers: {
@@ -204,8 +214,8 @@ const LabelInput = ({
 
   const saveProgressHandler = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/changes", {
-        method: "POST",
+      const response = await fetch(`${env.REACT_APP_HTTP_URL}/node/public/updateNodes`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -354,21 +364,25 @@ const LabelInput = ({
           />
         </div>
         <div className="commonClassSelectorContainer">
+        <CustomCheckbox
+            label="Add ClassNames"
+            isChecked={isClassRequired}
+            handleChange={classNameRequired}
+          />
           <CustomCheckbox
             label="Common Class"
             isChecked={isCommonClassEnabled}
             handleChange={handleCommonClassCheckboxChange}
           />
-          <button onClick={classSelectorButtonClickHandler}>Add all current classes</button>
         </div>
         <div className="single_detail">
-          <p>Classes:</p>
+          <p>Common Classes:</p>
           <input
-            disabled={!isCommonClassEnabled}
+            disabled={!(isCommonClassEnabled && isClassRequired)}
             type="text"
-            value={commonClasses.join(' ')}
+            value={commonClasses}
             onChange={handleCommonClassInputChange}
-            className={`${!isCommonClassEnabled && 'disabledClassInput' }`}
+            className={`${!(isCommonClassEnabled && isClassRequired) && 'disabledClassInput' }`}
           />
         </div>
 

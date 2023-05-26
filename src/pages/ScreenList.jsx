@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import "./ScreenList.css";
 import { STATUS_CODE } from "../constants/constants";
 import env from "../conf/env";
+import CustomStatus from "../components/common/CustomStatus";
 const ScreenList = () => {
   const { templateId } = useParams();
 
@@ -28,6 +29,16 @@ const ScreenList = () => {
     getTemplates();
   }, [templateId]);
 
+  const updateStatus = async(id, value) => {
+    const response = await fetch(`${env.REACT_APP_HTTP_URL}/screen/status/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ status: value }),
+    });
+  }
+
   return (
     <div className="screen-list">
       {screens.map((screen) => (
@@ -38,14 +49,15 @@ const ScreenList = () => {
             alt={screen.screen_name}
             className="screen-image"
           />
-          <p
+          {/* <p
             className="screen-status"
             style={{
               backgroundColor: STATUS_CODE[screen.status],
             }}
           >
             {screen.status}
-          </p>
+          </p> */}
+          <CustomStatus id={screen._id} card_status={screen.status} updateStatus={updateStatus}  />
         </div>
       ))}
     </div>

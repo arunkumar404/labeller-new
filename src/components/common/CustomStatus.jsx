@@ -2,7 +2,8 @@ import React, { useState } from "react";
 const STATUS_CODE = {
     TODO: 'rgb(225 207 19)',
     INPROGRESS: '#6a6ae3',
-    DONE: '#41ca41'
+    DONE: '#41ca41',
+    RESTRICTED: 'red'
 }
 
 const CustomStatus = ({ id, card_status, updateStatus }) => {

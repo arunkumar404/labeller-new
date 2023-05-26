@@ -28,6 +28,7 @@ const CustomStatus = ({ id, card_status, updateStatus }) => {
         <option value="TODO">Todo</option>
         <option value="INPROGRESS">In Progress</option>
         <option value="DONE">Done</option>
+        <option value="RESTRICTED">Restricted</option>
       </select>
     </div>
   );
